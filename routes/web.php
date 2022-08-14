@@ -17,11 +17,15 @@ use App\Http\Controllers\EmployeeController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::resources([
     'companies' => CompanyController::class,
     'employees' => EmployeeController::class,
 ]);
+
+Auth::routes([
+    'register' => false,
+    'reset' => false,
+    'verify' => false,
+]);
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
