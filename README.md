@@ -41,7 +41,10 @@ Run below command to install all frontend dependencies
 ```
 npm install
 ```
-
+Link local asset folder to public for exposing it
+```
+php artisan storage:link
+```
 Then start your development server:
 
 ```
