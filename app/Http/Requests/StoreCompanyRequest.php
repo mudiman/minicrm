@@ -13,7 +13,7 @@ class StoreCompanyRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this->user()->isAdmin();
     }
 
     /**
@@ -26,8 +26,8 @@ class StoreCompanyRequest extends FormRequest
         return [
             'name' => 'required|unique:companies|max:255',
             'email' => 'required|unique:companies|email|max:255',
-            'logo' => 'required|mimes:png,jpg,jpeg|max:255',
-            'website' => 'url|max:255'
+            'logo' => 'required|image|mimes:png,jpg,jpeg|max:2048|dimensions:min_width=100,min_height=100',
+            'website' => 'nullable|url|max:255'
         ];
     }
 }

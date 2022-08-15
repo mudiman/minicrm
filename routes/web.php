@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployeeController;
-
+use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,15 +18,27 @@ use App\Http\Controllers\EmployeeController;
 |
 */
 
-Route::resources([
-    'companies' => CompanyController::class,
-    'employees' => EmployeeController::class,
-]);
-
 Auth::routes([
     'register' => false,
     'reset' => false,
     'verify' => false,
 ]);
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/companies/list', [CompanyController::class, 'list'])->name('companies.list');
+    Route::get('/employees/list', [EmployeeController::class, 'list'])->name('employees.list');
+    Route::resources([
+        'companies' => CompanyController::class,
+        'employees' => EmployeeController::class,
+    ]);
+});
+
+
+
+
+
+
+
+
+

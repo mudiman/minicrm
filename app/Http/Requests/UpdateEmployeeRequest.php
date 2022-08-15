@@ -13,7 +13,7 @@ class UpdateEmployeeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this->user()->isAdmin();
     }
 
     /**
@@ -24,7 +24,11 @@ class UpdateEmployeeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'email' => 'required|unique:employees,email,'. $this->employee->id.'|email|max:255',
+            'company_id' => 'required',
+            'phone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:5'
         ];
     }
 }

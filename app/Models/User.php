@@ -41,4 +41,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Crude to check for admin but in reality there will ACL
+     * @return bool
+     */
+    public function isAdmin() {
+        return $this->email === "admin@admin.com";
+    }
 }

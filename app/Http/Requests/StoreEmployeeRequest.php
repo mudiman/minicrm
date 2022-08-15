@@ -13,7 +13,7 @@ class StoreEmployeeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this->user()->isAdmin();
     }
 
     /**
@@ -28,7 +28,7 @@ class StoreEmployeeRequest extends FormRequest
             'last_name' => 'required|max:255',
             'email' => 'required|unique:employees|email|max:255',
             'company_id' => 'required',
-            'phone' => 'max:255'
+            'phone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:5'
         ];
     }
 }
