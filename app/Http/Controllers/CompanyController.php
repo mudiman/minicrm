@@ -124,13 +124,14 @@ class CompanyController extends Controller
     public function update(UpdateCompanyRequest $request, Company $company)
     {
         $validated = $request->safe()->only(['name', 'email', 'website']);
-
-        $fileName = sprintf("%s_%s", $request->input('name'), $request->file('logo')->getClientOriginalName());
-        $path = $request->file('logo')->storeAs(
-            'public/logo',
-            $fileName
-        );
-        $validated['logo'] = $fileName;
+        if ($request->file('logo')) {
+            $fileName = sprintf("%s_%s", $request->input('name'), $request->file('logo')->getClientOriginalName());
+            $path = $request->file('logo')->storeAs(
+                'public/logo',
+                $fileName
+            );
+            $validated['logo'] = $fileName;
+        }
         $company->update($validated);
 
         return redirect()->route('companies.index')
